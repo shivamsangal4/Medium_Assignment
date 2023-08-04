@@ -1,0 +1,36 @@
+<%= form_with(model: @post, url: upload_posts_path, method: :post, local: true, multipart: true) do |form| %>
+  <%= form.label :user_id %>
+  <%= form.text_field :user_id %>
+
+  <%= form.label :post_img, 'Image' %>
+  <%= form.file_field :post_img %>
+
+  <%= form.label :title %>
+  <%= form.text_field :title %>
+
+  <%= form.label :topic %>
+  <%= form.text_field :topic %>
+
+  <%= form.label :post_date %>
+  <%= form.date_field :post_date %>
+
+  <%= form.label :text %>
+  <%= form.text_area :text %>
+
+  <%= form.label :number_likes %>
+  <%= form.number_field :number_likes %>
+
+  <%= form.label :number_comm %>
+  <%= form.number_field :number_comm %>
+
+  <%= form.label :number_of_views %>
+  <%= form.number_field :number_of_views %>
+
+  <%= form.label :total_reading_time %>
+  <%= form.number_field :total_reading_time %>
+
+  <%= form.label :subtitle %>
+  <%= form.text_field :subtitle %>
+
+  <%= form.submit 'Create Post' %>
+<% end %>

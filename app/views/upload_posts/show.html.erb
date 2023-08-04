@@ -1,0 +1,11 @@
+<h1><%= @post.title %></h1>
+<p><strong>Topic:</strong> <%= @post.topic %></p>
+<p><strong>Post Date:</strong> <%= @post.post_date %></p>
+<p><strong>Text:</strong> <%= @post.text %></p>
+<p><strong>Number of Likes:</strong> <%= @post.number_likes %></p>
+<p><strong>Number of Comments:</strong> <%= @post.number_comm %></p>
+<p><strong>Number of Views:</strong> <%= @post.number_of_views %></p>
+<p><strong>Total Reading Time:</strong> <%= @post.total_reading_time %> minutes</p>
+<p><strong>Subtitle:</strong> <%= @post.subtitle %></p>
+
+  <%= image_tag @post.post_img %>
