@@ -5,6 +5,6 @@ class Post < ApplicationRecord
     # Add any additional associations, validations, or model logic here
     has_many :likes
     has_many :comments
-    has_one_attached :post_img
+    # has_one_attached :post_img
   end
   

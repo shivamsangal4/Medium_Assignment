@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_03_170604) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_05_075305) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -37,6 +37,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_170604) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "auth_tokens", force: :cascade do |t|
+    t.string "token"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_auth_tokens_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -80,7 +88,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_170604) do
 
   create_table "posts", force: :cascade do |t|
     t.integer "user_id"
-    t.binary "post_img"
     t.string "title"
     t.string "topic"
     t.date "post_date"
@@ -105,14 +112,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_170604) do
     t.index ["user_id"], name: "index_revisions_history_on_user_id"
   end
 
-  create_table "save_for_later", force: :cascade do |t|
+  create_table "save_for_laters", force: :cascade do |t|
     t.integer "user_id"
     t.integer "post_id"
     t.datetime "time_stamp", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["post_id"], name: "index_save_for_later_on_post_id"
-    t.index ["user_id"], name: "index_save_for_later_on_user_id"
+    t.index ["post_id"], name: "index_save_for_laters_on_post_id"
+    t.index ["user_id"], name: "index_save_for_laters_on_user_id"
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -127,11 +134,29 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_170604) do
 
   create_table "users", force: :cascade do |t|
     t.string "user_name"
-    t.string "user_password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email"
     t.integer "number_of_followers"
+    t.string "password_digest"
+  end
+
+  create_table "versions", force: :cascade do |t|
+    t.integer "post_id"
+    t.integer "user_id"
+    t.binary "post_img"
+    t.string "title"
+    t.string "topic"
+    t.date "post_date"
+    t.text "text"
+    t.integer "number_likes", default: 0
+    t.integer "number_comm", default: 0
+    t.integer "number_of_views", default: 0
+    t.integer "total_reading_time", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_versions_on_post_id"
+    t.index ["user_id"], name: "index_versions_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -146,7 +171,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_170604) do
   add_foreign_key "posts", "users"
   add_foreign_key "revisions_history", "posts"
   add_foreign_key "revisions_history", "users"
-  add_foreign_key "save_for_later", "posts"
-  add_foreign_key "save_for_later", "users"
+  add_foreign_key "save_for_laters", "posts"
+  add_foreign_key "save_for_laters", "users"
   add_foreign_key "subscriptions", "users"
+  add_foreign_key "versions", "posts"
+  add_foreign_key "versions", "users"
 end

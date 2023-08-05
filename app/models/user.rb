@@ -2,8 +2,9 @@
 
 class User < ApplicationRecord
     # Add any associations, validations, or model logic here
-    # has_secure_password
+    has_secure_password
     has_many :posts
+    has_many :auth_tokens, dependent: :destroy
     # has_many :likes
     # has_many :comments
     has_many :followings, foreign_key: 'user_follower_id'
