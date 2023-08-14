@@ -144,15 +144,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_05_075305) do
   create_table "versions", force: :cascade do |t|
     t.integer "post_id"
     t.integer "user_id"
-    t.binary "post_img"
     t.string "title"
-    t.string "topic"
-    t.date "post_date"
+    t.string "subtitle"
     t.text "text"
-    t.integer "number_likes", default: 0
-    t.integer "number_comm", default: 0
-    t.integer "number_of_views", default: 0
-    t.integer "total_reading_time", default: 0
+    t.string "topic"
+    t.string "imageURL"
+    t.string "version"
+    t.string "action"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_versions_on_post_id"

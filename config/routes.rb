@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   
   delete '/delete_post', to: 'add_posts#destroy'
 
-  delete '/update_post', to: 'add_posts#update'
+  post '/update_post', to: 'add_posts#update'
 
   post '/add_post/add_reading_time', to: 'add_posts#update_reading_time'
 
@@ -75,5 +75,7 @@ Rails.application.routes.draw do
   post '/subscriptions/increment_views_and_decrease_view_count', to: 'subscriptions#increment_views_and_decrease_view_count'
 
   post '/subscriptions/set_credits', to: 'subscriptions#set_credits'
+
+  get '/versions', to: 'versions#show_post_versions'
   # root to: 'welcome#index'  # Set a different default page (replace 'welcome#index' with the desired controller and action)
 end

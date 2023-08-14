@@ -7,6 +7,8 @@ class PaymentsController < ApplicationController
       exp_year = params[:exp_year]
       cvc = params[:cvc]
     amount = params[:amount]
+
+    user = User.find_by(email: params[:email])
       
       token = Stripe::Token.create({
         card: {
@@ -27,11 +29,19 @@ class PaymentsController < ApplicationController
   
         # Payment successful
         flash[:notice] = 'Payment successful!'
-  
+        done = 'success';
+
       rescue Stripe::CardError => e
         # Payment failed
         flash[:alert] = e.message
+        done = 'failed'
       end
+      if done == 'success'
+        subscription = Subscription.create!(
+          user_id: user.id,   
+          amount: payment_amount,    
+          expires_at: 30.days.from_now   
+        )
 
       redirect_to login_path
     end

@@ -1,11 +1,11 @@
-# app/controllers/add_posts_controller.rb
+
 
 class AddPostsController < ApplicationController
     skip_before_action :verify_authenticity_token
   
     # POST /add_post
     def create
-      # Get details from the params
+     
       user_id = AuthToken.find_user_id_by_token(params[:token])
       title = params[:title]
       topic = params[:topic]
@@ -18,7 +18,7 @@ class AddPostsController < ApplicationController
       number_of_views = 0
       total_reading_time = 0
   
-      # Create the new post
+      
       post = Post.new(
         user_id: user_id,
         title: title,
@@ -31,20 +31,7 @@ class AddPostsController < ApplicationController
         number_of_views: number_of_views,
         total_reading_time: total_reading_time
       )
-      # version = Version.new(
-      #   post_id: post.id,
-      #   user_id: user_id,
-      #   title: title,
-      #   topic: topic,
-      #   post_date: post_date,
-      #   text: text,
-      #   subtitle: subtitle,
-      #   number_likes: number_likes,
-      #   number_comm: number_comm,
-      #   number_of_views: number_of_views,
-      #   total_reading_time: total_reading_time)
-        
-      #   version.save
+      
      
   
       if post.save
@@ -52,6 +39,20 @@ class AddPostsController < ApplicationController
       else
         render json: { error: post.errors.full_messages.join(", ") }, status: :unprocessable_entity
       end
+      version = Version.new(
+        post_id: post.id,
+        user_id: user_id,
+        title: title,
+        subtitle: subtitle,
+        text: text,
+        topic: topic,
+        imageURL: "",
+        # version: version,
+        action: "add"
+      )
+  
+      version.save
+        
     end
 
 
@@ -94,7 +95,19 @@ def update
           text: text,
           subtitle: subtitle
         )
-
+        version = Version.new(
+          post_id: post.id,
+          user_id: post.user_id,
+          title: post.title,
+          subtitle: post.subtitle,
+          text: post.text,
+          topic: post.topic,
+          imageURL: "",
+          # version: version,
+          action: "update"
+        )
+        version.save
+    
         render json: { message: "Post updated successfully" }, status: :ok
       else
         render json: { error: "Unauthorized to update this post" }, status: :unauthorized
